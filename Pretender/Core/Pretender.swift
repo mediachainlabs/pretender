@@ -153,13 +153,13 @@ public class PretendServer {
     }
   }
 
-  public var baseURL: NSURL
+  public let baseURL: NSURL
   var stubs: [OHHTTPStubsDescriptor] = []
 
-  public init(baseURL: NSURL, setupClosure: (ServerSetup -> ())? = nil) {
-    self.baseURL = baseURL
+  public init(baseURL: URLStringConvertible, setupClosure: (ServerSetup -> ())? = nil) {
+    self.baseURL = NSURL(string: baseURL.URLString)!
     if let setupClosure = setupClosure {
-      var server = ServerSetup(baseURL: baseURL)
+      var server = ServerSetup(baseURL: self.baseURL)
       setupClosure(server)
       self.stubs = server.stubs
     }

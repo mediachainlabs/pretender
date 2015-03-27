@@ -11,7 +11,7 @@ let kBodyKey = "HTTPBody"
 
 public class AlamofireManager : Alamofire.Manager {
 
-  public override func request(method: Alamofire.Method, _ URLString: URLStringConvertible, parameters: [String: AnyObject]? = nil, encoding: ParameterEncoding = .URL) -> Request {
+  public override func request(method: Alamofire.Method, _ URLString: Alamofire.URLStringConvertible, parameters: [String: AnyObject]? = nil, encoding: ParameterEncoding = .URL) -> Request {
 
     let req = NSMutableURLRequest(URL: NSURL(string: URLString.URLString)!)
     req.HTTPMethod = method.rawValue

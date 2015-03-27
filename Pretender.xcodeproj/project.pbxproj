@@ -13,8 +13,9 @@
 		8072AD9E1AC5DFA5004273A4 /* jsonresponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8072AD9C1AC5DFA5004273A4 /* jsonresponse.json */; };
 		8072AD9F1AC5DFA5004273A4 /* stringresponse.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8072AD9D1AC5DFA5004273A4 /* stringresponse.txt */; };
 		8072ADA11AC5E2C7004273A4 /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072ADA01AC5E2C7004273A4 /* AlamofireManager.swift */; };
-		8072ADA51AC5E2D5004273A4 /* Pretender.h in Headers */ = {isa = PBXBuildFile; fileRef = 8072ADA31AC5E2D5004273A4 /* Pretender.h */; };
+		8072ADA51AC5E2D5004273A4 /* Pretender.h in Headers */ = {isa = PBXBuildFile; fileRef = 8072ADA31AC5E2D5004273A4 /* Pretender.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8072ADA61AC5E2D5004273A4 /* Pretender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072ADA41AC5E2D5004273A4 /* Pretender.swift */; };
+		8072ADD61AC62030004273A4 /* URLStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072ADD51AC62030004273A4 /* URLStringConvertible.swift */; };
 		A3DF403D72A3BB53164BB1B6 /* Pods_Pretender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24D8EEEA1A211723FC8DF0EB /* Pods_Pretender.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		8072ADA01AC5E2C7004273A4 /* AlamofireManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlamofireManager.swift; path = AlamofireManager/AlamofireManager.swift; sourceTree = "<group>"; };
 		8072ADA31AC5E2D5004273A4 /* Pretender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pretender.h; sourceTree = "<group>"; };
 		8072ADA41AC5E2D5004273A4 /* Pretender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pretender.swift; sourceTree = "<group>"; };
+		8072ADD51AC62030004273A4 /* URLStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLStringConvertible.swift; sourceTree = "<group>"; };
 		98BC975DF1E42E40725CF537 /* Pods-Pretender.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pretender.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pretender/Pods-Pretender.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +148,7 @@
 			children = (
 				8072ADA31AC5E2D5004273A4 /* Pretender.h */,
 				8072ADA41AC5E2D5004273A4 /* Pretender.swift */,
+				8072ADD51AC62030004273A4 /* URLStringConvertible.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8072ADA11AC5E2C7004273A4 /* AlamofireManager.swift in Sources */,
+				8072ADD61AC62030004273A4 /* URLStringConvertible.swift in Sources */,
 				8072ADA61AC5E2D5004273A4 /* Pretender.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

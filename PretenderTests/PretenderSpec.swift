@@ -18,7 +18,7 @@ class PretenderSpec : QuickSpec {
         var pretender: PretendServer!
         let manager = Alamofire.Manager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         beforeEach {
-          pretender = PretendServer(baseURL: NSURL(string: baseURL)!) { server in
+          pretender = PretendServer(baseURL: baseURL) { server in
             server.get("thing1") { _ in PretendResponse(string: "Hello from thing1")}
             server.post("thing2") { _ in PretendResponse(string: "Nice thing2 you posted there") }
             server.get("nothing") { _ in PretendResponse(string: "Nothing to see here", statusCode: 404)}
@@ -68,7 +68,7 @@ class PretenderSpec : QuickSpec {
         var pretender: PretendServer!
         let manager = Alamofire.Manager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         beforeEach {
-          pretender = PretendServer(baseURL: NSURL(string: baseURL)!) { server in
+          pretender = PretendServer(baseURL: baseURL) { server in
             server.get("json") { _ in FixtureResponse("jsonresponse", inBundleForClass: PretenderSpec.self) }
             server.get("text") { _ in FixtureResponse("stringresponse.txt", inBundleForClass: PretenderSpec.self) }
           }
@@ -90,7 +90,7 @@ class PretenderSpec : QuickSpec {
       }
 
       describe("Alamofire Manager extension") {
-        let mockURL = NSURL(string: "http://pretend.stub")!
+        let mockURL = "http://pretend.stub"
         let manager = Pretender.AlamofireManager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 
         it("Includes the request parameters as a property of the request") {
