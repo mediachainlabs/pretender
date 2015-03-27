@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		68BC945F8EF1809CD6C59B65 /* Pods_PretenderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC34D12538D4B717857975F /* Pods_PretenderTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6E007007D8C79B10F09D6181 /* PretenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0070F6A91A601C161AC195 /* PretenderSpec.swift */; };
-		6E00718564A373D4B43B992A /* Pretender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E007009FC8A315002C0347E /* Pretender.swift */; };
 		6E0076F190C6575A35A7D39E /* Pretender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E007BA57C825139DCA171C9 /* Pretender.framework */; };
-		6E007990C0C8DBA4A8530D02 /* Pretender.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0078D4098E757B48E01886 /* Pretender.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E007B2C45ED38046D506FAE /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E007DBD3CFD5A8F76F4AF5C /* AlamofireManager.swift */; };
 		8072AD9E1AC5DFA5004273A4 /* jsonresponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8072AD9C1AC5DFA5004273A4 /* jsonresponse.json */; };
 		8072AD9F1AC5DFA5004273A4 /* stringresponse.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8072AD9D1AC5DFA5004273A4 /* stringresponse.txt */; };
+		8072ADA11AC5E2C7004273A4 /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072ADA01AC5E2C7004273A4 /* AlamofireManager.swift */; };
+		8072ADA51AC5E2D5004273A4 /* Pretender.h in Headers */ = {isa = PBXBuildFile; fileRef = 8072ADA31AC5E2D5004273A4 /* Pretender.h */; };
+		8072ADA61AC5E2D5004273A4 /* Pretender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072ADA41AC5E2D5004273A4 /* Pretender.swift */; };
 		A3DF403D72A3BB53164BB1B6 /* Pods_Pretender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24D8EEEA1A211723FC8DF0EB /* Pods_Pretender.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -34,16 +34,16 @@
 		48324D6D46E92430687F157A /* Pods-PretenderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PretenderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PretenderTests/Pods-PretenderTests.release.xcconfig"; sourceTree = "<group>"; };
 		4F07E025D8ABC96779FBBA0D /* Pods-PretenderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PretenderTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PretenderTests/Pods-PretenderTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5AC34D12538D4B717857975F /* Pods_PretenderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PretenderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E007009FC8A315002C0347E /* Pretender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pretender.swift; sourceTree = "<group>"; };
 		6E00705AA926A17638F19A2F /* PretenderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PretenderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0070F6A91A601C161AC195 /* PretenderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PretenderSpec.swift; sourceTree = "<group>"; };
 		6E00725793CA484828993B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		6E0078D4098E757B48E01886 /* Pretender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pretender.h; sourceTree = "<group>"; };
 		6E007BA57C825139DCA171C9 /* Pretender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pretender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E007DBD3CFD5A8F76F4AF5C /* AlamofireManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		6E007FF1610411338B58615A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		8072AD9C1AC5DFA5004273A4 /* jsonresponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonresponse.json; sourceTree = "<group>"; };
 		8072AD9D1AC5DFA5004273A4 /* stringresponse.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stringresponse.txt; sourceTree = "<group>"; };
+		8072ADA01AC5E2C7004273A4 /* AlamofireManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlamofireManager.swift; path = AlamofireManager/AlamofireManager.swift; sourceTree = "<group>"; };
+		8072ADA31AC5E2D5004273A4 /* Pretender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pretender.h; sourceTree = "<group>"; };
+		8072ADA41AC5E2D5004273A4 /* Pretender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pretender.swift; sourceTree = "<group>"; };
 		98BC975DF1E42E40725CF537 /* Pods-Pretender.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pretender.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pretender/Pods-Pretender.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,10 +99,9 @@
 		6E0079A40C8A1DF499868ACD /* Pretender */ = {
 			isa = PBXGroup;
 			children = (
+				8072ADA21AC5E2D5004273A4 /* Core */,
 				8072AD9A1AC5DE57004273A4 /* AlamofireManager */,
 				6E0076EB04AB7D5647F71AD8 /* Supporting Files */,
-				6E0078D4098E757B48E01886 /* Pretender.h */,
-				6E007009FC8A315002C0347E /* Pretender.swift */,
 			);
 			path = Pretender;
 			sourceTree = "<group>";
@@ -128,7 +127,7 @@
 		8072AD9A1AC5DE57004273A4 /* AlamofireManager */ = {
 			isa = PBXGroup;
 			children = (
-				6E007DBD3CFD5A8F76F4AF5C /* AlamofireManager.swift */,
+				8072ADA01AC5E2C7004273A4 /* AlamofireManager.swift */,
 			);
 			name = AlamofireManager;
 			sourceTree = "<group>";
@@ -140,6 +139,15 @@
 				8072AD9D1AC5DFA5004273A4 /* stringresponse.txt */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		8072ADA21AC5E2D5004273A4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8072ADA31AC5E2D5004273A4 /* Pretender.h */,
+				8072ADA41AC5E2D5004273A4 /* Pretender.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		A94038E61D4DE7091DC34A71 /* Pods */ = {
@@ -169,7 +177,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E007990C0C8DBA4A8530D02 /* Pretender.h in Headers */,
+				8072ADA51AC5E2D5004273A4 /* Pretender.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,8 +369,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E00718564A373D4B43B992A /* Pretender.swift in Sources */,
-				6E007B2C45ED38046D506FAE /* AlamofireManager.swift in Sources */,
+				8072ADA11AC5E2C7004273A4 /* AlamofireManager.swift in Sources */,
+				8072ADA61AC5E2D5004273A4 /* Pretender.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
