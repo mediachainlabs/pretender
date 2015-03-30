@@ -9,7 +9,7 @@ import OHHTTPStubs
 internal struct Match {
   static func scheme(url: NSURL)(request: NSURLRequest) -> Bool {
     if let scheme = url.scheme {
-      if let reqScheme = (request.URL.scheme as NSString?) {
+      if let reqScheme = (request.URL?.scheme as NSString?) {
         return reqScheme == scheme
       }
     }
@@ -18,7 +18,7 @@ internal struct Match {
 
   static func host(url: NSURL)(request: NSURLRequest) -> Bool {
     if let host = url.host {
-      if let reqHost = (request.URL.host as NSString?) {
+      if let reqHost = (request.URL?.host as NSString?) {
         let equal = reqHost == host
         return reqHost == host
       }
@@ -47,18 +47,18 @@ internal struct Match {
 // request URL and a stub URL which may contain :params
 // returns an optional dictionary of parameter names to values
 // If the stub URL is not a match for the request URL, return nil
-internal func pathParameters(#requestURL: NSURL, #stubURL: NSURL) -> [String:String]? {
-  if requestURL.pathComponents == nil || stubURL.pathComponents == nil {
+internal func pathParameters(#requestURL: NSURL?, #stubURL: NSURL) -> [String:String]? {
+  if requestURL?.pathComponents == nil || stubURL.pathComponents == nil {
     return nil
   }
-  let requestPathSegments = requestURL.pathComponents! as [String]
-  let stubPathSegments = stubURL.pathComponents! as [String]
+  let requestPathSegments = requestURL!.pathComponents! as! [String]
+  let stubPathSegments = stubURL.pathComponents! as! [String]
   if requestPathSegments.count != stubPathSegments.count { return nil }
 
   var params = [String:String]()
 
   for (reqSeg, stubSeg) in Zip2(requestPathSegments, stubPathSegments) {
-    if stubSeg.hasPrefix(":") && countElements(stubSeg) > 1 {
+    if stubSeg.hasPrefix(":") && count(stubSeg) > 1 {
       let paramName = stubSeg[advance(stubSeg.startIndex,1) ..< stubSeg.endIndex]
       params[paramName] = reqSeg
     } else if stubSeg != reqSeg {

@@ -26,7 +26,7 @@ public class AlamofireManager : Alamofire.Manager {
   }
 
   public override func request(URLRequest: URLRequestConvertible) -> Request {
-    var req = URLRequest.URLRequest.mutableCopy() as NSMutableURLRequest
+    var req = URLRequest.URLRequest.mutableCopy() as! NSMutableURLRequest
     if let body = req.HTTPBody {
       NSURLProtocol.setProperty(body, forKey: RequestURLProtocolKeys.HTTPBody, inRequest: req)
     }
@@ -37,12 +37,12 @@ public class AlamofireManager : Alamofire.Manager {
 
 public extension NSURLRequest {
   var pretender_HTTPBody: NSData {
-    let data = NSURLProtocol.propertyForKey(RequestURLProtocolKeys.HTTPBody, inRequest: self) as NSData?
+    let data = NSURLProtocol.propertyForKey(RequestURLProtocolKeys.HTTPBody, inRequest: self) as? NSData
     return data ?? NSData()
   }
 
   var pretender_parameters: [String:AnyObject] {
-    let params = NSURLProtocol.propertyForKey(RequestURLProtocolKeys.Parameters, inRequest: self) as [String:AnyObject]?
+    let params = NSURLProtocol.propertyForKey(RequestURLProtocolKeys.Parameters, inRequest: self) as? [String:AnyObject]
     return params ?? [:]
   }
 }

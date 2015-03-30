@@ -72,7 +72,7 @@ public class PretendServer {
     OHHTTPStubs.onStubActivation { [weak self] request, stub in
       if let s = self {
         if s.containsStub(stub) {
-          if let url = request.URL.absoluteString {
+          if let url = request.URL?.absoluteString {
             println("request for \(url) replaced with \(stub.name)")
           } } } }
   }

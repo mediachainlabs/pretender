@@ -23,11 +23,11 @@ class PretenderSpec : QuickSpec {
             server.post("thing2") { _ in PretendResponse(string: "Nice thing2 you posted there") }
             server.get("nothing") { _ in PretendResponse(string: "Nothing to see here", statusCode: 404)}
             server.get("things/:id/colors") { request, params in
-              let id = params["id"]!
+              let id = params["id"] as! String
               return PretendResponse(string: "This thing has an id of \(id)")
             }
             server.get("people/:id/roles/:role") { request, params in
-              let (id, role) = (params["id"]!, params["role"]!)
+              let (id, role) = (params["id"] as! String, params["role"] as! String)
               return PretendResponse(string: "Person #\(id) loves being a \(role)")
             }
             server.get("params-please") { request, params in
@@ -39,7 +39,7 @@ class PretenderSpec : QuickSpec {
         it("Stubs GET requests for a given path") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/thing1")
-            .responseString { (request, response, str, error) in responseStr = str }
+            .responseString({ (request, response, str, error) in responseStr = str })
 
           expect(responseStr).toEventually(equal("Hello from thing1"))
         }
@@ -47,7 +47,7 @@ class PretenderSpec : QuickSpec {
         it("Stubs POST requests for a given path") {
           var responseStr: String?
           manager.request(.POST, baseURL + "/thing2")
-            .responseString { (request, response, str, error) in responseStr = str }
+            .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(equal("Nice thing2 you posted there"))
         }
 
@@ -61,14 +61,14 @@ class PretenderSpec : QuickSpec {
         it("Treats path segments beginning with ':' as wildcards") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/things/100/colors")
-            .responseString { (request, response, str, error) in responseStr = str }
+            .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventuallyNot(beNil())
         }
 
         it("Provides the values of parameterized path segments") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/people/10/roles/walletinspector")
-            .responseString { (request, response, str, error) in responseStr = str }
+            .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(equal("Person #10 loves being a walletinspector"))
         }
 
@@ -82,7 +82,7 @@ class PretenderSpec : QuickSpec {
           NSURLProtocol.setProperty(params, forKey: RequestURLProtocolKeys.Parameters, inRequest: request)
           var responseStr: String?
           manager.request(request)
-            .responseString{(request, response, str, error) in responseStr = str }
+            .responseString({(request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(contain("ice"))
         }
       }
@@ -116,7 +116,7 @@ class PretenderSpec : QuickSpec {
         it("Returns the contents of a fixture file") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/text")
-            .responseString  { (request, response, str, error) in responseStr = str }
+            .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(contain("Hello"))
         }
 

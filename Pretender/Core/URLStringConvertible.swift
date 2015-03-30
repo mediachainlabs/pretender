@@ -39,6 +39,6 @@ extension NSURLComponents: URLStringConvertible {
 
 extension NSURLRequest: URLStringConvertible {
   public var URLString: String {
-    return URL.URLString
+    return URL!.URLString
   }
 }
