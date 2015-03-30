@@ -18,13 +18,13 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files = 'Pretender/Core/*.{h,m,swift}'
     core.dependency 'OHHTTPStubs', '~> 3.1.11'
-    core.dependency 'SwiftyJSON', '2.1.3'
+    core.dependency 'SwiftyJSON', '~> 2.1.3'
   end
 
   s.subspec 'AlamofireManager' do |af|
     af.source_files = 'Pretender/AlamofireManager/*.swift'
     af.dependency 'Pretender/Core'
-    af.dependency 'Alamofire', '1.1.3'
+    af.dependency 'Alamofire', '~> 1.1.3'
   end
 
 end
