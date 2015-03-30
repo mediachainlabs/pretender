@@ -6,6 +6,7 @@
 import Foundation
 
 import SwiftyJSON
+import OHHTTPStubs
 
 public class PretendResponse {
   let data: NSData
@@ -56,4 +57,19 @@ public class FixtureResponse: PretendResponse {
     super.init(data: data!, statusCode: statusCode, headers: headers)
   }
 
+}
+
+internal func stubResponse(responder: ResponseBlock, #stubURL: NSURL) -> OHHTTPStubsResponseBlock {
+  return { request in
+    let requestURL = request.URL
+    var params = request.pretender_parameters
+    let pathParams = pathParameters(requestURL: requestURL, stubURL: stubURL) ?? [:]
+
+    for (key, val) in pathParams {
+      params[key] = val
+    }
+
+    let response = responder(request: request, params: params)
+    return OHHTTPStubsResponse(data: response.data, statusCode: response.statusCode, headers: response.headers)
+  }
 }

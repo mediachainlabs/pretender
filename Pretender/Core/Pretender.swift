@@ -11,9 +11,10 @@ import OHHTTPStubs
 import SwiftyJSON
 
 
-public typealias ResponseBlock = NSURLRequest -> PretendResponse
-public typealias RequestParams = [String: AnyObject]
+//public typealias ResponseBlock = (request: NSURLRequest, params: RequestParams) -> PretendResponse
+public typealias ResponseBlock = (request: NSURLRequest, params: RequestParams) -> PretendResponse
 
+public typealias RequestParams = [String: AnyObject]
 
 
 public class PretendServer {
@@ -21,29 +22,26 @@ public class PretendServer {
     let baseURL: NSURL
     var stubs: [OHHTTPStubsDescriptor] = []
 
-    let baseMatchers: [(NSURLRequest -> Bool)]
-    let pathMatcher: (String -> (NSURLRequest -> Bool))
-
     public init(baseURL: NSURL) {
       self.baseURL = baseURL
-      baseMatchers = [Match.scheme(baseURL), Match.host(baseURL)]
-      pathMatcher = Match.path(baseURL)
+    }
+
+    private func stubRequest(method: String, path: String, response: ResponseBlock) {
+      let stubURL = baseURL.URLByAppendingPathComponent(path)
+      let testFn = test(Match.scheme(baseURL), Match.host(baseURL), Match.method(method), Match.path(stubURL))
+      let responseBlock = stubResponse(response, stubURL: stubURL)
+
+      let stub = OHHTTPStubs.stubRequestsPassingTest(testFn, withStubResponse:responseBlock)
+      stub.name = "Stub for \(method): \"\(path)\""
+      stubs.append(stub)
     }
 
     public func get(path: String, response: ResponseBlock) {
-      let matchers = baseMatchers + [Match.method("GET"), pathMatcher(path)]
-      let responseBlock = stubResponse(response)
-      let stub = OHHTTPStubs.stubRequestsPassingTest(test(matchers), withStubResponse:responseBlock)
-      stub.name = "GET stub for \"\(path)\""
-      stubs.append(stub)
+      stubRequest("GET", path: path, response: response)
     }
 
     public func post(path: String, response: ResponseBlock) {
-      let matchers = baseMatchers + [ Match.method("POST"), pathMatcher(path)]
-      let responseBlock = stubResponse(response)
-      var stub = OHHTTPStubs.stubRequestsPassingTest(test(matchers), withStubResponse: responseBlock)
-      stub.name = "POST stub for \"\(path)\""
-      stubs.append(stub)
+      stubRequest("POST", path: path, response: response)
     }
   }
 

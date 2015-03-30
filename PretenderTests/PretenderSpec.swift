@@ -22,6 +22,17 @@ class PretenderSpec : QuickSpec {
             server.get("thing1") { _ in PretendResponse(string: "Hello from thing1")}
             server.post("thing2") { _ in PretendResponse(string: "Nice thing2 you posted there") }
             server.get("nothing") { _ in PretendResponse(string: "Nothing to see here", statusCode: 404)}
+            server.get("things/:id/colors") { request, params in
+              let id = params["id"]!
+              return PretendResponse(string: "This thing has an id of \(id)")
+            }
+            server.get("people/:id/roles/:role") { request, params in
+              let (id, role) = (params["id"]!, params["role"]!)
+              return PretendResponse(string: "Person #\(id) loves being a \(role)")
+            }
+            server.get("params-please") { request, params in
+              PretendResponse(string: "Thanks for sending me these great parameters: \(params)")
+            }
           }
         }
 
@@ -45,6 +56,34 @@ class PretenderSpec : QuickSpec {
           manager.request(.GET, baseURL + "/nothing")
             .response { (request, response, str, error) in code = response?.statusCode }
           expect(code).toEventually(equal(404))
+        }
+
+        it("Treats path segments beginning with ':' as wildcards") {
+          var responseStr: String?
+          manager.request(.GET, baseURL + "/things/100/colors")
+            .responseString { (request, response, str, error) in responseStr = str }
+          expect(responseStr).toEventuallyNot(beNil())
+        }
+
+        it("Provides the values of parameterized path segments") {
+          var responseStr: String?
+          manager.request(.GET, baseURL + "/people/10/roles/walletinspector")
+            .responseString { (request, response, str, error) in responseStr = str }
+          expect(responseStr).toEventually(equal("Person #10 loves being a walletinspector"))
+        }
+
+        it("Parses integer path parameters") {
+
+        }
+
+        it("Returns request parameters if they're associated with the request using NSURLProtocol") {
+          var request = NSMutableURLRequest(URL: NSURL(string: baseURL + "/params-please")!)
+          let params = ["ice": 9]
+          NSURLProtocol.setProperty(params, forKey: RequestURLProtocolKeys.Parameters, inRequest: request)
+          var responseStr: String?
+          manager.request(request)
+            .responseString{(request, response, str, error) in responseStr = str }
+          expect(responseStr).toEventually(contain("ice"))
         }
       }
 
@@ -93,12 +132,12 @@ class PretenderSpec : QuickSpec {
         let mockURL = "http://pretend.stub"
         let manager = Pretender.AlamofireManager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 
-        it("Includes the request parameters as a property of the request") {
+        it("Includes the request parameters automatically") {
           var requestParams: [String:AnyObject]?
           let pretender = PretendServer(baseURL: mockURL) { server in
-            server.post("needsparams") { request in
-              requestParams = request.pretender_parameters
-              return PretendResponse(json: [])
+            server.post("needsparams") { request, params in
+              requestParams = params
+              return PretendResponse(string: "")
             }
           }
 

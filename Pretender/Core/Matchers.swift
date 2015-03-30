@@ -34,15 +34,38 @@ internal struct Match {
     return false
   }
 
-  
-  static func path(baseURL: NSURL)(path:String)(request: NSURLRequest) -> Bool {
-    let testURL = baseURL.URLByAppendingPathComponent(path)
-    if let reqPath = (request.URL.path as NSString?) {
-      return reqPath == testURL.path!
-    }
-    return false
+
+  static func path(stubURL: NSURL)(request: NSURLRequest) -> Bool {
+    let pathParams = pathParameters(requestURL: request.URL, stubURL: stubURL)
+    return pathParams != nil
   }
 
+}
+
+
+// Accepts two String arrays of path segments for a
+// request URL and a stub URL which may contain :params
+// returns an optional dictionary of parameter names to values
+// If the stub URL is not a match for the request URL, return nil
+internal func pathParameters(#requestURL: NSURL, #stubURL: NSURL) -> [String:String]? {
+  if requestURL.pathComponents == nil || stubURL.pathComponents == nil {
+    return nil
+  }
+  let requestPathSegments = requestURL.pathComponents! as [String]
+  let stubPathSegments = stubURL.pathComponents! as [String]
+  if requestPathSegments.count != stubPathSegments.count { return nil }
+
+  var params = [String:String]()
+
+  for (reqSeg, stubSeg) in Zip2(requestPathSegments, stubPathSegments) {
+    if stubSeg.hasPrefix(":") && countElements(stubSeg) > 1 {
+      let paramName = stubSeg[advance(stubSeg.startIndex,1) ..< stubSeg.endIndex]
+      params[paramName] = reqSeg
+    } else if stubSeg != reqSeg {
+      return nil
+    }
+  }
+  return params
 }
 
 
@@ -57,9 +80,3 @@ internal func test(tests: (NSURLRequest -> Bool)...) -> OHHTTPStubsTestBlock {
   return test(tests)
 }
 
-internal func stubResponse(responder: ResponseBlock) -> OHHTTPStubsResponseBlock {
-  return { request in
-    let response = responder(request)
-    return OHHTTPStubsResponse(data: response.data, statusCode: response.statusCode, headers: response.headers)
-  }
-}
