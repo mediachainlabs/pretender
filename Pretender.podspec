@@ -18,13 +18,13 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files = 'Pretender/Core/*.{h,m,swift}'
     core.dependency 'OHHTTPStubs', '~> 3.1.11'
-    core.dependency 'SwiftyJSON', :git => "https://github.com/SwiftyJSON/SwiftyJSON.git", :branch => "xcode6.3"
+    core.dependency 'SwiftyJSON'
   end
 
   s.subspec 'AlamofireManager' do |af|
     af.source_files = 'Pretender/AlamofireManager/*.swift'
     af.dependency 'Pretender/Core'
-    af.dependency 'Alamofire', :git => "https://github.com/Alamofire/Alamofire.git", :branch => "xcode-6.3"
+    af.dependency 'Alamofire'
   end
 
 end
