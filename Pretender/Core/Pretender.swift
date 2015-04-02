@@ -17,48 +17,36 @@ public typealias ResponseBlock = (request: NSURLRequest, params: RequestParams) 
 public typealias RequestParams = [String: AnyObject]
 
 
+private func logStub(stub: OHHTTPStubsDescriptor, request: NSURLRequest) {
+  if let url = request.URL?.absoluteString {
+    println("request for \(url) replaced with \(stub.name)")
+  }
+}
+
 public class PretendServer {
-  public class ServerSetup {
-    let baseURL: NSURL
-    var stubs: [OHHTTPStubsDescriptor] = []
+  private struct Static {
+    static var TeardownOnDeinit = true
+  }
 
-    public init(baseURL: NSURL) {
-      self.baseURL = baseURL
-    }
-
-    private func stubRequest(method: String, path: String, response: ResponseBlock) {
-      let stubURL = baseURL.URLByAppendingPathComponent(path)
-      let testFn = test(Match.scheme(baseURL), Match.host(baseURL), Match.method(method), Match.path(stubURL))
-      let responseBlock = stubResponse(response, stubURL: stubURL)
-
-      let stub = OHHTTPStubs.stubRequestsPassingTest(testFn, withStubResponse:responseBlock)
-      stub.name = "Stub for \(method): \"\(path)\""
-      stubs.append(stub)
-    }
-
-    public func get(path: String, response: ResponseBlock) {
-      stubRequest("GET", path: path, response: response)
-    }
-
-    public func post(path: String, response: ResponseBlock) {
-      stubRequest("POST", path: path, response: response)
-    }
+  public class var TeardownOnDeinit: Bool {
+    get { return Static.TeardownOnDeinit }
+    set(v) { Static.TeardownOnDeinit = v }
   }
 
   public let baseURL: NSURL
   var stubs: [OHHTTPStubsDescriptor] = []
 
-  public init(baseURL: URLStringConvertible, setupClosure: (ServerSetup -> ())? = nil) {
+  public init(baseURL: URLStringConvertible, setupClosure: (PretendServer -> ())? = nil) {
     self.baseURL = NSURL(string: baseURL.URLString)!
     if let setupClosure = setupClosure {
-      var server = ServerSetup(baseURL: self.baseURL)
-      setupClosure(server)
-      self.stubs = server.stubs
+      setupClosure(self)
     }
   }
 
   deinit {
-    teardown()
+    if PretendServer.TeardownOnDeinit {
+      teardown()
+    }
   }
 
   public func teardown() {
@@ -70,11 +58,12 @@ public class PretendServer {
 
   public func logAllStubs() {
     OHHTTPStubs.onStubActivation { [weak self] request, stub in
-      if let s = self {
-        if s.containsStub(stub) {
-          if let url = request.URL?.absoluteString {
-            println("request for \(url) replaced with \(stub.name)")
-          } } } }
+      if let this = self {
+        if this.containsStub(stub) {
+          logStub(stub, request)
+        }
+      }
+    }
   }
 
   private func containsStub(stub: OHHTTPStubsDescriptor) -> Bool {
@@ -86,4 +75,37 @@ public class PretendServer {
     return false
   }
 
+  private func stubRequest(method: String, path: String, response: ResponseBlock) {
+    let stubURL = baseURL.URLByAppendingPathComponent(path)
+    let testFn = test(Match.scheme(baseURL), Match.host(baseURL), Match.method(method), Match.path(stubURL))
+    let responseBlock = stubResponse(response, stubURL: stubURL)
+
+    let stub = OHHTTPStubs.stubRequestsPassingTest(testFn, withStubResponse:responseBlock)
+    stub.name = "Stub for \(method): \"\(path)\""
+    stubs.append(stub)
+  }
+
+  public func get(path: String, response: ResponseBlock) {
+    stubRequest("GET", path: path, response: response)
+  }
+
+  public func post(path: String, response: ResponseBlock) {
+    stubRequest("POST", path: path, response: response)
+  }
+
+  public func put(path: String, response: ResponseBlock) {
+    stubRequest("PUT", path: path, response: response)
+  }
+
+  public func patch(path: String, response: ResponseBlock) {
+    stubRequest("PATCH", path: path, response: response)
+  }
+
+  public func delete(path: String, response: ResponseBlock) {
+    stubRequest("DELETE", path: path, response: response)
+  }
+
+  public func head(path: String, response: ResponseBlock) {
+    stubRequest("HEAD", path: path, response: response)
+  }
 }
