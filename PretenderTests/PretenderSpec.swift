@@ -36,7 +36,7 @@ class PretenderSpec : QuickSpec {
           }
         }
 
-        it("Stubs GET requests for a given path") {
+        it("should stub GET requests for a given path") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/thing1")
             .responseString({ (request, response, str, error) in responseStr = str })
@@ -44,39 +44,39 @@ class PretenderSpec : QuickSpec {
           expect(responseStr).toEventually(equal("Hello from thing1"))
         }
 
-        it("Stubs POST requests for a given path") {
+        it("should stub POST requests for a given path") {
           var responseStr: String?
           manager.request(.POST, baseURL + "/thing2")
             .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(equal("Nice thing2 you posted there"))
         }
 
-        it("Returns the provided status code") {
+        it("should return the provided status code") {
           var code: Int?
           manager.request(.GET, baseURL + "/nothing")
             .response { (request, response, str, error) in code = response?.statusCode }
           expect(code).toEventually(equal(404))
         }
 
-        it("Treats path segments beginning with ':' as wildcards") {
+        it("should treats path segments beginning with ':' as wildcards") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/things/100/colors")
             .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventuallyNot(beNil())
         }
 
-        it("Provides the values of parameterized path segments") {
+        it("should provide the values of parameterized path segments") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/people/10/roles/walletinspector")
             .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(equal("Person #10 loves being a walletinspector"))
         }
 
-        it("Parses integer path parameters") {
+        it("should parse integer path parameters") {
 
         }
 
-        it("Returns request parameters if they're associated with the request using NSURLProtocol") {
+        it("should return request parameters if they're associated with the request using NSURLProtocol") {
           var request = NSMutableURLRequest(URL: NSURL(string: baseURL + "/params-please")!)
           let params = ["ice": 9]
           NSURLProtocol.setProperty(params, forKey: RequestURLProtocolKeys.Parameters, inRequest: request)
@@ -89,7 +89,7 @@ class PretenderSpec : QuickSpec {
 
       describe("FixtureResponse") {
         describe ("Bundle class") {
-          it ("Allows you to globally set the class for the bundle containing fixtures") {
+          it ("should allow you to globally set the class for the bundle containing fixtures") {
             FixtureResponse.bundleClass = PretenderSpec.self
             let response = FixtureResponse("jsonresponse")
             expect("didn't assert") == "didn't assert"
@@ -97,7 +97,7 @@ class PretenderSpec : QuickSpec {
           }
 
           // does what it says on the tin, so disabled with 'x' prefix
-          xit("Asserts if you don't set the bundle class either globally or in the initializer") {
+          xit("should assert if you don't set the bundle class either globally or in the initializer") {
             let response = FixtureResponse("jsonresponse")
             expect("to never get here") == "yep, we crashed"
           }
@@ -113,14 +113,14 @@ class PretenderSpec : QuickSpec {
           }
         }
 
-        it("Returns the contents of a fixture file") {
+        it("should return the contents of a fixture file") {
           var responseStr: String?
           manager.request(.GET, baseURL + "/text")
             .responseString({ (request, response, str, error) in responseStr = str })
           expect(responseStr).toEventually(contain("Hello"))
         }
 
-        it("Assumes a '.json' file extension if none is provided") {
+        it("should assume a '.json' file extension if none is provided") {
           var responseData: AnyObject?
           manager.request(.GET, baseURL + "/json")
             .responseJSON { (request, response, data, error) in responseData = data }
@@ -132,7 +132,7 @@ class PretenderSpec : QuickSpec {
         let mockURL = "http://pretend.stub"
         let manager = Pretender.AlamofireManager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 
-        it("Includes the request parameters automatically") {
+        it("should include the request parameters automatically") {
           var requestParams: [String:AnyObject]?
           let pretender = PretendServer(baseURL: mockURL) { server in
             server.post("needsparams") { request, params in
