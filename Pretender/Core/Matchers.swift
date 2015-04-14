@@ -36,36 +36,50 @@ internal struct Match {
 
 
   static func path(stubURL: NSURL)(request: NSURLRequest) -> Bool {
-    let pathParams = pathParameters(requestURL: request.URL, stubURL: stubURL)
-    return pathParams != nil
+    let matchResult = matchParameterizedPath(requestURL: request.URL, stubURL: stubURL)
+    switch matchResult {
+    case .Match: return true
+    case .NoMatch: return false
+    }
   }
 
 }
 
 
+enum PathMatchResult {
+  case Match([String:AnyObject])
+  case NoMatch
+}
+
 // Accepts two String arrays of path segments for a
 // request URL and a stub URL which may contain :params
-// returns an optional dictionary of parameter names to values
-// If the stub URL is not a match for the request URL, return nil
-internal func pathParameters(#requestURL: NSURL?, #stubURL: NSURL) -> [String:String]? {
+// returns a PathMatchResult indicating whether the paths
+// of the request URLs match, including the parsed path
+// parameters, if any
+internal func matchParameterizedPath(#requestURL: NSURL?, #stubURL: NSURL) -> PathMatchResult {
   if requestURL?.pathComponents == nil || stubURL.pathComponents == nil {
-    return nil
+    return .NoMatch
   }
   let requestPathSegments = requestURL!.pathComponents! as! [String]
   let stubPathSegments = stubURL.pathComponents! as! [String]
-  if requestPathSegments.count != stubPathSegments.count { return nil }
+  if requestPathSegments.count != stubPathSegments.count { return .NoMatch }
 
-  var params = [String:String]()
+  var params: [String:AnyObject] = [:]
 
   for (reqSeg, stubSeg) in Zip2(requestPathSegments, stubPathSegments) {
     if stubSeg.hasPrefix(":") && count(stubSeg) > 1 {
       let paramName = stubSeg[advance(stubSeg.startIndex,1) ..< stubSeg.endIndex]
-      params[paramName] = reqSeg
+      let value = reqSeg
+      if let intValue = value.toInt() {
+        params[paramName] = intValue
+      } else {
+        params[paramName] = value
+      }
     } else if stubSeg != reqSeg {
-      return nil
+      return .NoMatch
     }
   }
-  return params
+  return .Match(params)
 }
 
 
