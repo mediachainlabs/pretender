@@ -20,6 +20,7 @@ class PretenderSpec : QuickSpec {
       describe("Stubs in setup block") {
         beforeEach {
           pretender = PretendServer(baseURL: baseURL) { server in
+            server.get() { _ in PretendResponse(string: "Root path") }
             server.get("thing1") { _ in PretendResponse(string: "Hello from thing1")}
             server.post("thing2") { _ in PretendResponse(string: "Nice thing2 you posted there") }
             server.get("nothing") { _ in PretendResponse(string: "Nothing to see here", statusCode: 404)}
@@ -41,6 +42,22 @@ class PretenderSpec : QuickSpec {
           expect(responseStr).toEventually(equal("Nice thing2 you posted there"))
         }
 
+        it("should match the base URL when no path is specified in the stub definition") {
+          var responseStr: String?
+          manager.request(.GET, baseURL)
+            .responseString({ (request, response, str, error) in responseStr = str })
+          
+          expect(responseStr).toEventually(equal("Root path"))
+        }
+        
+        it("should ignore trailing slashes when matching paths") {
+          var responseStr: String?
+          manager.request(.GET, baseURL + "/")
+            .responseString({ (request, response, str, error) in responseStr = str })
+          
+          expect(responseStr).toEventually(equal("Root path"))
+        }
+        
         it("should return the provided status code") {
           var code: Int?
           manager.request(.GET, baseURL + "/nothing")

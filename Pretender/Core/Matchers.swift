@@ -57,12 +57,15 @@ enum PathMatchResult {
 // of the request URLs match, including the parsed path
 // parameters, if any
 internal func matchParameterizedPath(#requestURL: NSURL?, #stubURL: NSURL) -> PathMatchResult {
-  if requestURL?.pathComponents == nil || stubURL.pathComponents == nil {
+  if requestURL == nil {
     return .NoMatch
   }
-  let requestPathSegments = requestURL!.pathComponents! as! [String]
-  let stubPathSegments = stubURL.pathComponents! as! [String]
-  if requestPathSegments.count != stubPathSegments.count { return .NoMatch }
+  
+  let requestPathSegments = pathSegments(requestURL!)
+  let stubPathSegments = pathSegments(stubURL)
+  if requestPathSegments.count != stubPathSegments.count {
+    return .NoMatch
+  }
 
   var params: [String:AnyObject] = [:]
 
@@ -80,6 +83,21 @@ internal func matchParameterizedPath(#requestURL: NSURL?, #stubURL: NSURL) -> Pa
     }
   }
   return .Match(params)
+}
+
+// return NSURL.pathComponents as an array of strings
+private func pathSegments(url: NSURL) -> [String] {
+  if let segments = url.pathComponents as? [String] {
+    // handle the special case of a single '/' as the only
+    // path component.  Return the empty array so that it
+    // will match URLs that don't have a trailing slash
+    if segments.count == 1 && segments[0] == "/" {
+      return []
+    }
+    
+    return segments
+  }
+  return []
 }
 
 
