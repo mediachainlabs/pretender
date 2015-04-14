@@ -85,27 +85,27 @@ public class PretendServer {
     stubs.append(stub)
   }
 
-  public func get(path: String, response: ResponseBlock) {
+  public func get(_ path: String = "", response: ResponseBlock) {
     stubRequest("GET", path: path, response: response)
   }
 
-  public func post(path: String, response: ResponseBlock) {
+  public func post(_ path: String = "", response: ResponseBlock) {
     stubRequest("POST", path: path, response: response)
   }
 
-  public func put(path: String, response: ResponseBlock) {
+  public func put(_ path: String = "", response: ResponseBlock) {
     stubRequest("PUT", path: path, response: response)
   }
 
-  public func patch(path: String, response: ResponseBlock) {
+  public func patch(_ path: String = "", response: ResponseBlock) {
     stubRequest("PATCH", path: path, response: response)
   }
 
-  public func delete(path: String, response: ResponseBlock) {
+  public func delete(_ path: String = "", response: ResponseBlock) {
     stubRequest("DELETE", path: path, response: response)
   }
 
-  public func head(path: String, response: ResponseBlock) {
+  public func head(_ path: String = "", response: ResponseBlock) {
     stubRequest("HEAD", path: path, response: response)
   }
 }
