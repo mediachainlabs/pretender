@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.platform = :ios, '8.0'
   s.name = 'Pretender'
-  s.version = '0.1.4'
+  s.version = '0.1.5'
   s.summary = 'A Swift wrapper for OHHTTPStubs in the spirit of pretender.js'
   s.homepage = 'http://mine.nyc'
   s.license = 'MIT' #  shut up pod spec lint
