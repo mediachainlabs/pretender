@@ -63,7 +63,13 @@ internal func stubResponse(responder: ResponseBlock, #stubURL: NSURL) -> OHHTTPS
   return { request in
     let requestURL = request.URL
     var params = request.pretender_parameters
-    let pathParams = pathParameters(requestURL: requestURL, stubURL: stubURL) ?? [:]
+    let pathParams: [String:AnyObject]
+    
+    let pathMatchResult = matchParameterizedPath(requestURL: requestURL, stubURL: stubURL)
+    switch pathMatchResult {
+    case .NoMatch: pathParams = [:]
+    case .Match(let p): pathParams = p
+    }
 
     for (key, val) in pathParams {
       params[key] = val
